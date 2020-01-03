@@ -1,0 +1,29 @@
+{
+  "name": "juicenet",
+  "version": "1.0.0",
+  "description": "Node client for enel-X's JuiceNet API",
+  "main": "juicenet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ketsugi/node-juicenet.git"
+  },
+  "author": "ketsugi",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ketsugi/node-juicenet/issues"
+  },
+  "homepage": "https://github.com/ketsugi/node-juicenet#readme",
+  "dependencies": {
+    "loglevel": "^1.6.6",
+    "promise": "^8.0.3",
+    "request": "^2.88.0",
+    "uuid": "^3.3.3"
+  },
+  "keywords": [
+    "juicenet",
+    "evse"
+  ]
+}
