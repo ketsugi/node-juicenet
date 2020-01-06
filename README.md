@@ -1,7 +1,7 @@
 # node-juicenet
-[![Version](http://img.shields.io/npm/v/node-juicenet.png)](https://www.npmjs.org/package/node-juicenet)
-[![License](https://img.shields.io/npm/l/node-juicenet.svg)](https://github.com/ketsugi/node-juicenet/blob/master/LICENSE)
-[![Downloads](https://img.shields.io/npm/dt/node-juicenet.svg)](https://www.npmjs.org/package/node-juicenet)
+[![Version](http://img.shields.io/npm/v/juicenet.png)](https://www.npmjs.org/package/node-juicenet)
+[![License](https://img.shields.io/npm/l/juicenet.svg)](https://github.com/ketsugi/node-juicenet/blob/master/LICENSE)
+[![Downloads](https://img.shields.io/npm/dt/juicenet.svg)](https://www.npmjs.org/package/node-juicenet)
 
 ## An unofficial Node client for enel-X's JuiceNet API
 
