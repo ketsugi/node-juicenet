@@ -3,14 +3,14 @@
 const apiBaseUrl = "https://jbv1-api.emotorwerks.com";
 const apiMethod = "/box_pin";
 const secureApiMethod = "/box_api_secure";
-const uuid = require('uuid/v4')();
+const uuid = require("uuid/v4")();
 
-const log = require('loglevel');
-const request = require('request').defaults({
+const log = require("loglevel");
+const request = require("request").defaults({
     json: true,
     gzip: true
 });
-const Promise = require('promise');
+const Promise = require("promise");
 
 /**
  * Fetch list of JuiceNet chargers for a given account
@@ -28,7 +28,7 @@ exports.getDevices = (apiToken, callback) => {
         log.error(msg);
         callback(msg, null);
         return;
-    } 
+    };
 
     let req = {
         method: 'POST',
@@ -81,7 +81,7 @@ exports.getDeviceState = (apiToken, chargerToken, callback) => {
         log.error(msg);
         callback(msg, null);
         return;
-    } 
+    };
 
     let req = {
         method: 'POST',
@@ -119,3 +119,92 @@ exports.getDeviceState = (apiToken, chargerToken, callback) => {
  */
 exports.getDeviceStateAsync = Promise.denodeify(exports.getDeviceState);
 
+/**
+ * Set the charger override
+ * @param {string} apiToken - JuiceNet API token
+ * @param {string} chargerToken - JuiceNet charger token
+ * @param {string} startTime - Timestamp to start charging
+ * @param {string} stopTime - Timestamp to stop charging
+ * @param {nodeBack} callback - Node-style callback
+ * @returns {object} {response, success}
+ */
+let setOverride = (apiToken, chargerToken, startTime, stopTime, callback) => {
+    log.info("juicenet.setOverride()");
+
+    callback = callback || function (err, result) { /* do nothing! */ }
+
+    if (!apiToken || !chargerToken) {
+        let msg = "setOverride(): No API or charger token provided";
+        log.error(msg);
+        callback(msg, null);
+        return;
+    };
+
+    let req = {
+        method: 'POST',
+        url: apiBaseUrl + secureApiMethod,
+        body: {
+            "cmd": "set_override",
+            "device_id": uuid,
+            "account_token": apiToken,
+            "token": chargerToken,
+            "override_time": startTime
+        }
+    };
+
+    if (stopTime > 0) {
+        req.body.target_time = stopTime;
+    }
+
+    log.debug(`Request: ${JSON.stringify(req)}`);
+
+    request(req, (error, response, body) => {
+        log.debug(`Response: ${JSON.stringify(response)}`);
+        log.debug(`Body: ${JSON.stringify(body)}`);
+
+        callback(error, { 
+            error: error,
+            response: response,
+            success: body.success
+        });
+
+        log.info("Successfully set charger override");
+    });
+};
+
+/**
+ * Start charging now
+ * @param {string} apiToken - JuiceNet API token
+ * @param {string} chargerToken - JuiceNet charger token
+ * @param {nodeBack} callback - Node-style callback
+ */
+exports.startCharging = (apiToken, chargerToken, callback) => {
+    exports.getDeviceState(apiToken, chargerToken, (_err, res) => {
+        setOverride(apiToken, chargerToken, res.chargerState.unit_time, 0, callback);
+    });
+};
+
+/**
+ * Start charging now
+ * @param {string} apiToken - JuiceNet API token
+ * @param {string} chargerToken - JuiceNet charger token
+ * @param {number} energyToAdd - Energy to charge the vehicle by
+ */
+exports.startChargingAsync = Promise.denodeify(exports.startCharging);
+
+/**
+ * Stop charging now
+ * @param {string} apiToken - JuiceNet API token
+ * @param {string} chargerToken - JuiceNet charger token
+ * @param {nodeBack} callback - Node-style callback
+ */
+exports.stopCharging = (apiToken, chargerToken, callback) => {
+    setOverride(apiToken, chargerToken, 2147483647, 0, callback);
+};
+
+/**
+ * Stop charging now
+ * @param {string} apiToken - JuiceNet API token
+ * @param {string} chargerToken - JuiceNet charger token
+ */
+exports.stopChargingAsync = Promise.denodeify(exports.stopCharging);
