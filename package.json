@@ -1,6 +1,6 @@
 {
-  "name": "juicenet",
-  "version": "1.0.1",
+  "name": "node-juicenet",
+  "version": "1.0.2",
   "description": "Node client for enel-X's JuiceNet API",
   "main": "juicenet.js",
   "scripts": {
@@ -29,5 +29,6 @@
   ],
   "devDependencies": {
     "jsdoc-to-markdown": "^5.0.3"
-  }
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
