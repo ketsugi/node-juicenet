@@ -1,6 +1,6 @@
 {
   "name": "node-juicenet",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node client for enel-X's JuiceNet API",
   "main": "juicenet.js",
   "scripts": {
