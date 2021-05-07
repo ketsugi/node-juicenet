@@ -4,6 +4,7 @@
   "description": "Node client for enel-X's JuiceNet API",
   "main": "juicenet.js",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "test": "mocha",
     "gendocs": "jsdoc2md juicenet.js > DOCUMENTATION.md"
   },
@@ -28,8 +29,11 @@
     "evse"
   ],
   "devDependencies": {
-    "jsdoc-to-markdown": "^5.0.3",
+    "jsdoc-to-markdown": "^7.0.1",
     "mocha": "^8.2.1"
+  },
+  "resolutions": {
+    "underscore": "^1.13.1"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
